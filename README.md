@@ -188,11 +188,91 @@ $xxx_gt is an integer of seconds, which will be matched with time interval field
 
 $xxx is a simple text string, with at least 2 characters to be escaped, or boolean (true,false) for Exact match with a field.
 
-#xxx_not is a simple text string, with at least 2 characters, which will be escaped and surrounded by wild card to exlucde from search.
+$xxx_not is a simple text string, with at least 2 characters, which will be escaped and surrounded by wild card to exlucde from search.
 
 $page is a positive integer, which will be multipled by 10, to skip records
 
+Return JSON, variant of 
+
+```
+{"logs":[....],...,"count":$count}
+```
+
+$count is the total number of records that match the caterion.
+
+---
+
+## Standard Call log query by Caller / Extension / Agent   ... (not to be implemented in sprint 1) 
+
+Get 10 FULL call log specific by a phone number, either caller/extension/agent
+
+```
+GET $baseurl/n/$number/$token
+```
+
+Return JSON, variant of 
+
+```
+{"logs":[....],...,"count":$count}
+```
+
+TBD
+
+---
+
+## Get call routes
+
+get at most 200 call routes readable by user
+
+Method 1 - Simple get 
+
+```
+GET $baseurl/r/$token(/$page)
+```
+
+$page is optional positive integer, a multiplier skip for 200 records 
+
+Return JSON, variant of 
+
+```
+{"routes":[....],...,"count":$count}
+```
+
+---
+## Add/Update call routes
+
+Method 1 - simple add/update
+
+```
+POST $baseurl/callroute
+```
+
+with JSON, variant of 
+
+```
+{"token":$token,"routes":[...]}
+```
+
+For each route:
+
+"id":$id | UUID | Required for updates | - 
+"exten":$exten | text | Required for add new |  full HK eight digit number assigned to user, not unique
+"dest":$dest | text | Required for add new | (version 1) full HK eight digit number for pickup. not unique
+"caller":$caller | text | Optional | route to handle VIP caller, full HK eight digit number
+"email":$email | email | Optional | email address to get missed call log and/or voicemail 
+"desc":$desc | text | Optional | simple text description, with 200 characters for the route
+"group":$group | text | Required for add new | 2-12 characters, case sensitive, for grouping toggle
+"switch":$sw | text/boolean | Optional | text "on"/"off" or boolean. default "off"
+"expire_at":$expire | timestamp | Optional | timestamp in unix epoch (seconds) to invalid the route
+"imt":$imt | text | Optional |  type and token for install messaging.
+
+---
+## Delete
+
+
 ###
+
+
 
 TBC....
 
