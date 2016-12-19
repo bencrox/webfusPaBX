@@ -255,6 +255,8 @@ with JSON, variant of
 
 For each route:
 
+Field | type | Default | Description
+--- | --- | --- | ---
 "id":$id | UUID | Required for updates | - 
 "exten":$exten | text | Required for add new |  full HK eight digit number assigned to user, not unique
 "dest":$dest | text | Required for add new | (version 1) full HK eight digit number for pickup. not unique
