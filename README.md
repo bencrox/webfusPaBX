@@ -7,15 +7,22 @@ PaBX  API
 2. Account password $pw : unicode, no longer than 64 char
 3. Protocol version $protover :  1.0.0 
 4. $baseurl:  (ver 1.0.0 , only in HTTP)    
+
 	domain + 
+
 	optional port (ver 1.0.0 , default 80)
+
 	optional path (default /)
+
 	http://pbx.webfus.com:3232/fotan
+
 5. Client version hash $client : six hex digit version of the client software
 
 
 Remarks, all JSON are supposed to be no longer than 1k byte if not marked "long JSON" / "huge JSON"
+
 long JSON are supposed to be no longer then 100k byte 
+
 huge JSON are supposed to be no longer then 2m byte
 
 ---
@@ -35,6 +42,7 @@ Return JSON, variant of
 ```
 
 Does not matter as long as "status" is "OK"
+
 The 6 hex digit server version hash will be mark as $server in below
 
 ---
@@ -113,7 +121,9 @@ Return JSON, variant of
 Notes: In any returned JSON within a session, there might be an "status" element which contain exactly what system status might reply at the same time. Yet status is only optional in JSON replies.
 
 The "update" contain at most 10 readable new call log/update/alerts stacked up "since" the last heartbeat.
+
 The number of logs is limited so that the heart heat will be limited to be 1k byte long at most. 
+
 Logs within heart beat might be a precise version which is not a FULL log.
 
 ---
@@ -133,6 +143,57 @@ Return JSON, variant of
 ```
 
 ---
+## Standard Call log query by date 
+
+get 10 FULL logs (no updates will be attached) in long JSON
+
+
+Method 1 - Simple get, no filter, date is formated in YYYY-MMM-DD (HKT) such as 2017-FEB-03, case insensitve. 
+
+```
+GET $baseurl/d/$YYYY-MMM-DD/$token
+```
+
+Return JSON, variant of 
+
+```
+{"logs":[....],...}
+```
+
+Method 2 - Post, with more options  (Not to be implemented at sprint 1)
+
+```
+POST $baseurl/d
+```
+
+with JSON, variant of 
+
+```
+{"token":$token,"date":$YYYY-MM-DD,"timezone":$tz,"any_match":$match_str,"caller_prefix":$caller_prefix,....}
+```
+
+$tz is any text base location which can be handled by moment.js, any space will be replaced by underscore :
+
+http://momentjs.com/timezone/
+
+e.g. "Asia/Hong_Kong"
+
+$match_str is a simple text string, with at least 3 characters, which will be escaped and surrounded by wildcard SQL search. 
+
+$xxx_prefix is a simple text string, with at least 1 character, which will be escaped and matched with specific field $xxx
+
+$xxx_suffix is a simple text string, with at least 1 character, which will be escaped and matched with specific field $xxx
+
+$xxx_gt is an integer of seconds, which will be matched with time interval fields 
+
+$xxx is a simple text string, with at least 2 characters to be escaped, or boolean (true,false) for Exact match with a field.
+
+#xxx_not is a simple text string, with at least 2 characters, which will be escaped and surrounded by wild card to exlucde from search.
+
+$page is a positive integer, which will be multipled by 10, to skip records
+
+###
+
 TBC....
 
 
