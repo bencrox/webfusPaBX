@@ -14,6 +14,6 @@
   "dtmf":"",
   "remarks":""}],
   "count":1,
-  status:{"line":2,"ringing":0,"talking":0,"voicemail":1}
+  "status":{"line":2,"ringing":0,"talking":0,"voicemail":1}
   }
 
