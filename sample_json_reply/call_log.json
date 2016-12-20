@@ -1,0 +1,19 @@
+{"logs":
+ [{
+  "id":"22fed4c5-ccff-4275-aa5f-b1e8982fde05",
+  "exten":"31115191",
+  "dest":"68306283",
+  "caller":"31840680",
+  "intime":"1482201317",
+  "picktime":"1482201319",
+  "endtime":"1482201343",
+  "hangupcause":"16",
+  "voicefile_id":"528789e6-3117-46d2-9681-8d51b91c13a7",
+  "caller_name":"Ben Crox",
+  "notes":"Test call",
+  "dtmf":"",
+  "remarks":""}],
+  "count":1,
+  status:{"line":2,"ringing":0,"talking":0,"voicemail":1}
+  }
+
