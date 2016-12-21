@@ -1,10 +1,12 @@
 package com.example.vivienne.pabx;
 
 /**
- * Created by Vivienne on 12/17/2016.
+ *  Modify by Vivienne on 12/17/2016.
+ *  source from:  http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
  */
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -18,6 +20,16 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.BindView;
 
+import android.os.StrictMode;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -25,13 +37,17 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.btn_login) Button _loginButton;
-//    @OnClick(R.id.btn_login)
     @BindView(R.id.link_signup) TextView _signupLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         ButterKnife.bind(this);
 
         _loginButton = (Button) findViewById(R.id.btn_login);
@@ -42,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-//        _signupLink = (Button) findViewById(R.id.link_signup);
+        //        _signupLink = (Button) findViewById(R.id.link_signup);
         _signupLink = (TextView) findViewById(R.id.link_signup);
         _signupLink.setOnClickListener(new View.OnClickListener() {
 
@@ -80,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
+        tryLogin(email, password);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -92,6 +109,57 @@ public class LoginActivity extends AppCompatActivity {
                 }, 3000);
     }
 
+    protected void tryLogin(String email, String password)
+    {
+        HttpURLConnection connection;
+        OutputStreamWriter request = null;
+
+        URL url = null;
+        String response = null;
+//        {"id":$id,"pw":$pw,"client":$client,....}
+        String parameters = " {\"id\":" + email + ",\"pw\":" + password + "}";
+
+        try
+        {
+            url = new URL("http://pbx.webfus.com/login");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestMethod("POST");
+
+            request = new OutputStreamWriter(connection.getOutputStream());
+            request.write(parameters);
+            request.flush();
+            request.close();
+            String line = "";
+            int status = connection.getResponseCode();
+            if (status != HttpURLConnection.HTTP_OK)
+                System.out.println("!!! http : " + status);
+            InputStreamReader isr = new InputStreamReader(connection.getInputStream());
+            BufferedReader reader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            while ((line = reader.readLine()) != null)
+            {
+                sb.append(line + "\n");
+            }
+            // Response from server after login process will be stored in response variable.
+            response = sb.toString();
+            System.out.println("!!! "+ response);
+            // You can perform UI operations here
+            Toast.makeText(this,"Message from Server: \n"+ response,Toast.LENGTH_SHORT).show();
+            isr.close();
+            reader.close();
+
+
+
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,7 +167,13 @@ public class LoginActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
+                String Temp = "xxxxx";
+                LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(this);
+                Intent n = new Intent("com.example.vivienne.pabx");
+                n.putExtra("action", "login_success");
+                n.putExtra("login_ret_json", Temp);
+                mgr.sendBroadcast(n);
+
                 this.finish();
             }
         }

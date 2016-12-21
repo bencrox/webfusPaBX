@@ -1,5 +1,7 @@
 package com.example.vivienne.pabx;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,19 +12,29 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import android.widget.GridView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+public class MainActivity extends AppCompatActivity {
+    SliderAdapter adapter;
+    private boolean login = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+//              set adapter here to SKIP login
+        adapter = new SliderAdapter(getSupportFragmentManager(),getApplicationContext());
+        adapter.init();
+        //call Login Activity
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-//
-//       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -30,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+
+
+
+        //GET $baseurl/!/$token
     }
 
     @Override
@@ -42,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
+        // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -53,4 +71,29 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private void setupInfo(String loginJson) {
+        // TODO
+        // {"login":"OK","token":"UUID....","e-perm":$perm,....}
+
+        // GET $baseurl/e/$server
+
+
+
+
+    }
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getStringExtra("action");
+            if (action == "login_success") {
+                login = true;
+                String loginJson = intent.getStringExtra("login_ret_json");
+                setupInfo(loginJson);
+                adapter = new SliderAdapter(getSupportFragmentManager(),getApplicationContext());
+                adapter.init();
+            }else {}
+
+        }
+    };
+
 }

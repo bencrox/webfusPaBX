@@ -1,8 +1,10 @@
 package com.example.vivienne.pabx;
 
 /**
- * Created by Vivienne on 12/17/2016.
+ *  Modify by Vivienne on 12/17/2016.
+ *  source from:  http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
  */
+
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -144,15 +146,15 @@ public class SignupActivity extends AppCompatActivity {
         } else {
             _mobileText.setError(null);
         }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+//        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+        if (password.isEmpty() ) {
+            _passwordText.setError("password cannot be empty");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
+        if (reEnterPassword.isEmpty() || !(reEnterPassword.equals(password))) {
             _reEnterPasswordText.setError("Password Do not match");
             valid = false;
         } else {
