@@ -69,7 +69,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                 "  \"hangupcause\":\"16\",\n" +
                 "  \"voicefile_id\":\"528789e6-3117-46d2-9681-8d51b91c13a7\",\n" +
                 "  \"caller_name\":\"Ben Crox\",\n" +
-                "  \"notes\":\"Test call\",\n" +
+                "  \"notes\":\"A Test call\",\n" +
                 "  \"dtmf\":\"\",\n" +
                 "  \"remarks\":\"\"},{\n" +
                 "  \"id\":\"22fed4c5-ccff-4275-aa5f-b1e8982fde05\",\n" +
@@ -82,7 +82,7 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
                 "  \"hangupcause\":\"16\",\n" +
                 "  \"voicefile_id\":\"528789e6-3117-46d2-9681-8d51b91c13a7\",\n" +
                 "  \"caller_name\":\"Ben Crox\",\n" +
-                "  \"notes\":\"Test call\",\n" +
+                "  \"notes\":\"B Test call\",\n" +
                 "  \"dtmf\":\"\",\n" +
                 "  \"remarks\":\"\"}],\n" +
                 "  \"count\":1,\n" +
@@ -107,13 +107,13 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
     private void prepareListData(String responseText) {
         listDataHeader = new ArrayList<LogRec>();
         listDataChild = new ArrayList<LogRec>();
-        LogRec temp =new LogRec();
+
         try{
             JSONObject jsonObj = new JSONObject(responseText);
             JSONArray logs = jsonObj.getJSONArray("logs");
             for(int i=0; i<logs.length();i++) {
                 JSONObject d = logs.getJSONObject(i);
-
+                LogRec temp =new LogRec();
 //                        String id, String exten, String dest, String caller,
 //                        String initime, String picktime, String endtime, String hangupcause,
 //                        String voicefile_id, String caller_name, String notes,
@@ -121,48 +121,69 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
 
                 if (d.has("id")){
                     temp.setId( d.getString("id"));
+                }else{
+                    temp.setId("");
                 }
                 if (d.has("exten")){
                     temp.setExten( d.getString("exten"));
+                }else{
+                    temp.setExten("");
                 }
                 if (d.has("dest")){
                     temp.setDest( d.getString("dest"));
+                }else{
+                    temp.setDest("");
                 }
                 if (d.has("caller")){
                     temp.setCaller( d.getString("caller"));
+                }else{
+                    temp.setCaller("");
                 }
-                if (d.has("initime")){
-                    temp.setInitime( d.getString("initime"));
+                if (d.has("intime")){
+                    temp.setInitime( d.getString("intime"));
+                }else{
+                    temp.setInitime("");
                 }
                 if (d.has("picktime")){
                     temp.setPicktime( d.getString("picktime"));
+                }else{
+                    temp.setPicktime("");
                 }
                 if (d.has("endtime")){
                     temp.setEndtime( d.getString("endtime"));
+                }else{
+                    temp.setEndtime("");
                 }
                 if (d.has("hangupcause")){
                     temp.setHangupcause( d.getString("hangupcause"));
+                }else{
+                    temp.setHangupcause("");
                 }
                 if (d.has("voicefile_id")){
                     temp.setVoicefile_id( d.getString("voicefile_id"));
+                }else{
+                    temp.setVoicefile_id("");
                 }
                 if (d.has("caller_name")){
                     temp.setCaller_name( d.getString("caller_name"));
+                }else{
+                    temp.setCaller_name("");
                 }
                 if (d.has("notes")){
                     temp.setNotes( d.getString("notes"));
-                    System.out.println("listDataHeader add: " +d.getString("notes"));
-                    System.out.println("listDataHeader add temp: " +temp.getNotes());
+                }else{
+                    temp.setNotes("");
                 }
                 if (d.has("dtmf")){
                     temp.setDtmf( d.getString("dtmf"));
+                }else{
+                    temp.setDtmf("");
                 }
                 if (d.has("remarks")){
                     temp.setRemarks( d.getString("remarks"));
+                }else{
+                    temp.setRemarks("");
                 }
-
-//                System.out.println("listDataHeader add: " +d.getString("notes"));
-//                System.out.println("listDataHeader add temp: " +temp.getNotes());
                 listDataHeader.add(temp);
                 listDataChild.add(temp);
 
@@ -171,9 +192,6 @@ public class HomeFragment extends android.support.v4.app.Fragment implements Vie
             System.err.println("JSONException: HomeFrag");
             e.printStackTrace();
         }
-        System.out.println("list index: " );
-        System.out.println(listDataChild.get(0).getNotes());
-        System.out.println(listDataChild.get(1).getNotes());
     }
 
 

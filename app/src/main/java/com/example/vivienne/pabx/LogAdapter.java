@@ -45,54 +45,32 @@ public class LogAdapter extends BaseExpandableListAdapter  {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = infalInflater.inflate(R.layout.log_item, null);
         }
-//        v = inflator.inflate(R.layout.log_item, parent, false);
-//        detailTable =(TableLayout) v.findViewById(R.id.detail_list);
-//        detailTable.setVisibility(View.GONE);
-//        if (datasource==null || datasource.length()==0) {
-//            Log.e("PaBX", "cannot get any logs in LogAdapter.");
-//        } else {
-//            try {
-//                JSONObject d = datasource.getJSONObject(groupPosition);
-//                TextView exten = (TextView) v.findViewById(R.id.exten);
-//                TextView dest = (TextView) v.findViewById(R.id.dest);
-//                TextView notes = (TextView) v.findViewById(R.id.notes);
-//
-//                exten.setText("exten : " + d.getString("exten"));
-//                dest.setText("dest : " + d.getString("dest"));
-//                notes.setText("notes : " + d.getString("notes"));
-//                contact.setText(d.getString("price") + " " + d.getString("rent"));
-//                date.setText(d.getString("modified"));
-//            } catch (Exception e) {
-//                Log.e("PaBX",  "Fav Adaptoer Get View " + e.toString());
-//            }
 
-
-//            v.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Log.e("PaBX", "view is click.");
-////                    detailTable.setVisibility(detailTable.isShown() ? View.GONE : View.VISIBLE);
-//
-//
-//
-//                }
-//            });
+//        if (v== null) {
+//            LayoutInflater infalInflater = (LayoutInflater) this.context
+//                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            v = infalInflater.inflate(R.layout.log_item, null);
 //        }
-//        String headerTitle = (String) getGroup(groupPosition);
-        if (v== null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = infalInflater.inflate(R.layout.log_item, null);
-        }
 
-        TextView exten = (TextView) v.findViewById(R.id.exten);
         TextView dest = (TextView) v.findViewById(R.id.dest);
         TextView notes = (TextView) v.findViewById(R.id.notes);
 
-        exten.setText("exten : " + _listDataHeader.get(groupPosition).getExten());
-        dest.setText("dest : " + _listDataHeader.get(groupPosition).getDest());
-        notes.setText("notes : " + _listDataHeader.get(groupPosition).getNotes());
+        TextView caller = (TextView) v.findViewById(R.id.caller);
+        TextView caller_name = (TextView) v.findViewById(R.id.caller_name);
+        TextView intime = (TextView) v.findViewById(R.id.intime);
+        TextView duration = (TextView) v.findViewById(R.id.duration);
+//        TextView picktime = (TextView) v.findViewById(R.id.picktime);
 
+//
+        dest.setText("Destination : " + _listDataHeader.get(groupPosition).getDest()+" ");
+        notes.setText("Notes : " + _listDataHeader.get(groupPosition).getNotes());
+
+        caller.setText("Caller : " + _listDataHeader.get(groupPosition).getCaller() +" ");
+        caller_name.setText(_listDataHeader.get(groupPosition).getCaller_name());
+        intime.setText(_listDataHeader.get(groupPosition).getInitime());
+//        picktime.setText("picktime : " + _listDataHeader.get(groupPosition).getPicktime());
+        duration.setText("Duration  : " +
+                (Integer.parseInt(_listDataHeader.get(groupPosition).getEndtime())-Integer.parseInt(_listDataHeader.get(groupPosition).getPicktime())));
         return v;
     }
 
@@ -107,24 +85,18 @@ public class LogAdapter extends BaseExpandableListAdapter  {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = infalInflater.inflate(R.layout.call_detail, null);
         }
+//        TextView intime = (TextView) v.findViewById(R.id.intime);
+//        intime.setText( _listDataHeader.get(groupPosition).getInitime());
 
-        TextView caller = (TextView) v.findViewById(R.id.caller);
-        TextView intime = (TextView) v.findViewById(R.id.intime);
-        TextView picktime = (TextView) v.findViewById(R.id.picktime);
-        TextView endtime = (TextView) v.findViewById(R.id.endtime);
+        TextView exten = (TextView) v.findViewById(R.id.exten);
         TextView hangupcase = (TextView) v.findViewById(R.id.hangupcase);
         TextView voicefile_id = (TextView) v.findViewById(R.id.voicefile_id);
-        TextView caller_name = (TextView) v.findViewById(R.id.caller_name);
         TextView dtmf = (TextView) v.findViewById(R.id.dtmf);
         TextView remarks = (TextView) v.findViewById(R.id.remarks);
 
-        caller.setText("caller : " + _listDataHeader.get(groupPosition).getCaller());
-        intime.setText("intime : " + _listDataHeader.get(groupPosition).getInitime());
-        picktime.setText("picktime : " + _listDataHeader.get(groupPosition).getPicktime());
-        endtime.setText("endtime : " + _listDataHeader.get(groupPosition).getEndtime());
+        exten.setText("exten : " + _listDataHeader.get(groupPosition).getExten());
         hangupcase.setText("hangupcase : " + _listDataHeader.get(groupPosition).getHangupcause());
         voicefile_id.setText("voicefile_id : " + _listDataHeader.get(groupPosition).getVoicefile_id());
-        caller_name.setText("caller_name : " + _listDataHeader.get(groupPosition).getCaller_name());
         dtmf.setText("dtmf : " + _listDataHeader.get(groupPosition).getDtmf());
         remarks.setText("remarks : " + _listDataHeader.get(groupPosition).getRemarks());
         return v;

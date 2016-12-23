@@ -3,47 +3,26 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-            android:text="Hello World!"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    <TableLayout
+       <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/detail_list"
-    >
-
+    ><TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/intime"
+               android:singleLine="true"
+               android:textColor="#030303"
+               android:textSize="10dp"
+       />
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:id="@+id/caller"
+                android:id="@+id/exten"
                 android:singleLine="true"
                 android:textColor="#030303"
                 android:textSize="18dp"
-        />
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:id="@+id/intime"
-                android:singleLine="true"
-                android:textColor="#030303"
-                android:textSize="18dp"
-        />
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:id="@+id/picktime"
-                android:singleLine="true"
-                android:textColor="#030303"
-                android:textSize="18dp"
-        />
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:id="@+id/endtime"
-                android:singleLine="true"
-                android:textColor="#030303"
-                android:textSize="18dp"
+                android:layout_weight="1"
         />
         <TextView
                 android:layout_width="match_parent"
@@ -69,7 +48,6 @@
                 android:textColor="#030303"
                 android:textSize="18dp"
         />
-
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
